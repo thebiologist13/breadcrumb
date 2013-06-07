@@ -1,0 +1,16 @@
+name: Breadcrumb
+version: '${project.version}'
+author: thebiologist13
+description: Leave behind a trail of breadcrumbs when traveling in caves!
+main: com.github.thebiologist13.realisticexplosives.RealisticExplosives
+commands:
+    breadcrumb:
+        description: Toggles Breadcrumb on or off for a player.
+        usage: /breadcrumb
+        permission: breadcrumb.toggle
+        permission-message: You do not have permission!
+        aliases: [b, bread, crumbs, trail]
+permissions:
+    breadcrumb.toggle:
+        description: Allows the user/group to toggle Breadcrumb on or off for themselves.
+        default: true

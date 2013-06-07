@@ -1,0 +1,21 @@
+# Breadcrumb Configuration
+
+# Message to display when starting to leave a trail.
+onMessage: 'Leaving a trail of breadcrumbs!'
+
+# Message to leave when no longer leaving a trail.
+offMessage: 'No longer leaving behind breadcrumbs!'
+
+# How many blocks apart should each crumb be?
+distance: 5
+
+# How long before a crumb despawns (in minutes)? Set to 0 to never despawn.
+despawn: 30
+
+bread:
+	# Should players be required to have bread in their inventory to leave crumbs?
+	# If this is false, the rest of the bread properties are ignored.
+    required: true
+    
+    # How many crumbs should one piece of bread be worth. Set to 0 to have no limit.
+    crumbs: 8
