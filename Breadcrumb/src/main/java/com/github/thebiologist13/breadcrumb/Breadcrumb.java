@@ -41,6 +41,13 @@ public class Breadcrumb extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		
+		getConfig();
+		
+		getCommand("breadcrumb").setExecutor(this);
+		
+		getServer().getPluginManager().registerEvents(new BreadcrumbListener(this), this);
+		
 		log.info("RealisticExplosions v" + getDescription().getVersion() + " has been enabled!");
 	}
 	
@@ -99,11 +106,14 @@ public class Breadcrumb extends JavaPlugin {
 		if(command.getName().equalsIgnoreCase("breadcrumb")) {
 			if(sender instanceof Player) {
 				Player p = (Player) sender;
-				if(mode.containsKey(p))
+				boolean msgState = true;
+				if(mode.containsKey(p)) {
 					mode.replace(p, !mode.get(p));
-				else
-					mode.put(p, false);
-				String message = (mode.get(p)) 
+					msgState = mode.get(p);
+				} else {
+					mode.put(p, true);
+				}
+				String message = (msgState) 
 						? config.getString("onMessage", "Leaving a trail of breadcrumbs!")
 						: config.getString("offMessage", "No longer leaving behind breadcrumbs!");
 				p.sendMessage(ChatColor.GREEN + message);

@@ -2,7 +2,7 @@ name: Breadcrumb
 version: '${project.version}'
 author: thebiologist13
 description: Leave behind a trail of breadcrumbs when traveling in caves!
-main: com.github.thebiologist13.realisticexplosives.RealisticExplosives
+main: com.github.thebiologist13.breadcrumb.Breadcrumb
 commands:
     breadcrumb:
         description: Toggles Breadcrumb on or off for a player.

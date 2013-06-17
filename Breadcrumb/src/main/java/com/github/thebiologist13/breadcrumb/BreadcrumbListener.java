@@ -3,7 +3,6 @@ package com.github.thebiologist13.breadcrumb;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -23,7 +22,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class BreadcrumbListener implements Listener {
 
 	private final FileConfiguration CONFIG;
-	private final String DISPLAY_NAME = ChatColor.GOLD + "Bread Crumb";
+	private final String DISPLAY_NAME = "Bread Crumb";
 	private final String LORE = "A piece of bread.";
 	
 	public BreadcrumbListener(Breadcrumb plugin) {
@@ -33,7 +32,7 @@ public class BreadcrumbListener implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	public void onMove(PlayerMoveEvent ev) {
 		Player p = ev.getPlayer();
-		boolean on = Breadcrumb.mode.get(p);
+		boolean on = Breadcrumb.mode.containsKey(p) ? Breadcrumb.mode.get(p) : false;
 		
 		if(!on)
 			return;
@@ -70,12 +69,15 @@ public class BreadcrumbListener implements Listener {
 			} else {
 				Breadcrumb.crumbs.put(p, stack.getAmount());
 			}
+			ev.setCancelled(true);
+			ev.getItem().remove();
 		}
 	}
 	
 	@EventHandler
 	public void onLogout(PlayerQuitEvent ev) {
 		Player p = ev.getPlayer();
+		Breadcrumb.mode.remove(p);
 		Breadcrumb.crumbs.remove(p);
 		Breadcrumb.lastCrumb.remove(p);
 	}
@@ -93,9 +95,7 @@ public class BreadcrumbListener implements Listener {
 			if(hasCrumbs) {
 				Breadcrumb.crumbs.replace(p, Breadcrumb.crumbs.get(p) - 1);
 				spawnCrumb(loc);
-			}
-			
-			if(hasBread) {
+			} else if(hasBread) {
 				Breadcrumb.crumbs.put(p, crumbs - 1);
 				PlayerInventory inv = p.getInventory();
 				int slot = inv.first(Material.BREAD);
@@ -112,18 +112,49 @@ public class BreadcrumbListener implements Listener {
 		} else {
 			spawnCrumb(loc);
 		}
+		
+		Breadcrumb.lastCrumb.put(p, loc);
 	}
 	
 	private boolean isCrumb(ItemStack i) {
 		ItemMeta meta = i.getItemMeta();
-		if(meta.getDisplayName().equals(DISPLAY_NAME) 
-				&& meta.getLore().contains(LORE))
+		if(meta == null)
+			return false;
+		
+		String name = meta.getDisplayName();
+		List<String> lore = meta.getLore();
+		
+		if(name == null || name.isEmpty() || lore == null || lore.isEmpty())
+			return false;
+		
+		System.out.println("DISPLAY_NAME: " + DISPLAY_NAME);
+		System.out.println("LORE: " + LORE);
+		System.out.println("Meta name: " + name);
+		System.out.println("Meta lore: " + lore.toString());
+		
+		boolean hasLore = false;
+		for(String s : lore) {
+			if(s.equals(LORE)) {
+				hasLore = true;
+				break;
+			}
+		}
+		
+		boolean hasName = name.equals(DISPLAY_NAME);
+		
+		System.out.println("Has Lore: " + hasLore);
+		System.out.println("Has Name: " + hasName);
+		
+		if(hasName && hasLore) {
 			return true;
-		return false;
+		} else {
+			return false;
+		}
 	}
 	
 	private Item spawnCrumb(Location l) {
 		ItemStack aCrumb = new ItemStack(Material.BAKED_POTATO);
+		aCrumb.setAmount(1);
 		ItemMeta meta = aCrumb.getItemMeta();
 		List<String> lore = new ArrayList<String>();
 		lore.add(LORE);

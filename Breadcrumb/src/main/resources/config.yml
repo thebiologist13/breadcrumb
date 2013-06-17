@@ -13,8 +13,8 @@ distance: 5
 despawn: 30
 
 bread:
-	# Should players be required to have bread in their inventory to leave crumbs?
-	# If this is false, the rest of the bread properties are ignored.
+    # Should players be required to have bread in their inventory to leave crumbs?
+    # If this is false, the rest of the bread properties are ignored.
     required: true
     
     # How many crumbs should one piece of bread be worth. Set to 0 to have no limit.
