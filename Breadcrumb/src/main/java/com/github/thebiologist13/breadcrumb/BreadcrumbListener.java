@@ -127,11 +127,6 @@ public class BreadcrumbListener implements Listener {
 		if(name == null || name.isEmpty() || lore == null || lore.isEmpty())
 			return false;
 		
-		System.out.println("DISPLAY_NAME: " + DISPLAY_NAME);
-		System.out.println("LORE: " + LORE);
-		System.out.println("Meta name: " + name);
-		System.out.println("Meta lore: " + lore.toString());
-		
 		boolean hasLore = false;
 		for(String s : lore) {
 			if(s.equals(LORE)) {
@@ -141,9 +136,6 @@ public class BreadcrumbListener implements Listener {
 		}
 		
 		boolean hasName = name.equals(DISPLAY_NAME);
-		
-		System.out.println("Has Lore: " + hasLore);
-		System.out.println("Has Name: " + hasName);
 		
 		if(hasName && hasLore) {
 			return true;
