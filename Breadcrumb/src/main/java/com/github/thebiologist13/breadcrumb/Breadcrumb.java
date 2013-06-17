@@ -19,7 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Breadcrumb extends JavaPlugin {
 	
 	//Map of how many breadcrumbs a player has. Add to this to generate bread, remove to drop.
-	public static ConcurrentHashMap<Player, Short> crumbs = new ConcurrentHashMap<Player, Short>();
+	public static ConcurrentHashMap<Player, Integer> crumbs = new ConcurrentHashMap<Player, Integer>();
 	
 	//Map of the location of the last last crumb per player
 	public static ConcurrentHashMap<Player, Location> lastCrumb = new ConcurrentHashMap<Player, Location>();
